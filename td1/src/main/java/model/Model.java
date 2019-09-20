@@ -163,6 +163,41 @@ public class Model {
         return false;
     }
 
+    public boolean deleteProjet(String intitule){
+        Projet projet = this.findProjetByIntitule(intitule);
+        if(projet!=null){
+            for (Membre membre : this.membreList) {
+                membre.deleteProjet(projet);
+            }
+            for (Competence competence : this.competenceList) {
+                competence.deleteProjet(projet);
+            }
+            this.projetList.remove(projet);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean quitProjet(Membre membre, String intitule){
+        Projet projet = this.findProjetByIntitule(intitule);
+        if(projet!=null){
+            projet.deleteMembre(membre);
+            membre.quitProjet(projet);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean participeProjet(Membre membre, String intitule){
+        Projet projet = this.findProjetByIntitule(intitule);
+        if(projet!=null && membreHaveCompForProjet(membre, projet)){
+            projet.addContribue(membre);
+            membre.participeProjet(projet);
+            return true;
+        }
+        return false;
+    }
+
     private boolean membreHaveCompForProjet(Membre membre, Projet projet) {
         for (CompetenceMembre compMem : membre.getCompetenceDeclare()) {
             if(projet.getNecessite().contains(compMem.getType())){

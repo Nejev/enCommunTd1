@@ -102,4 +102,18 @@ public class Membre {
         }
         return false;
     }
+
+    public boolean deleteProjet(Projet projet){
+        this.responsable.remove(projet);
+        this.participe.remove(projet);
+        return true;
+    }
+
+    public boolean quitProjet(Projet projet){
+        return this.participe.remove(projet);
+    }
+
+    public boolean participeProjet(Projet projet){
+        return this.participe.add(projet);
+    }
 }

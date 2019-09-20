@@ -83,4 +83,8 @@ public class Competence {
         }
         return false;
     }
+
+    public boolean deleteProjet(Projet projet){
+        return this.requisePour.remove(projet);
+    }
 }

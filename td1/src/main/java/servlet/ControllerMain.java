@@ -21,6 +21,9 @@ public class ControllerMain extends HttpServlet {
     public static final String URL_POST_LOGIN = URL_BASE_MODULE+"/loginP";
     public static final String URL_DELETE_LOGIN = URL_BASE_MODULE+"/loginD";
     public static final String URL_GET_PROJET = URL_BASE_MODULE+"/projet";
+    public static final String URL_DELETE_PROJET = URL_BASE_MODULE+"/projetD";
+    public static final String URL_UPDATE_QUIT_PROJET = URL_BASE_MODULE+"/projetUQuit";
+    public static final String URL_UPDATE_PARTICIPE_PROJET = URL_BASE_MODULE+"/projetUParticipe";
     public static final String URL_GET_COMPETENCE = URL_BASE_MODULE+"/competence";
     public static final String URL_POST_COMPETENCE = URL_BASE_MODULE+"/competenceP";
     public static final String URL_POST_COMPETENCEMEMBRE = URL_BASE_MODULE+"/competenceMembreP";
@@ -48,10 +51,28 @@ public class ControllerMain extends HttpServlet {
         this.needConnection.add("competenceP");
         this.needConnection.add("competenceMembreP");
         this.needConnection.add("competenceMembreD");
+        this.needConnection.add("projetD");
+        this.needConnection.add("projetUQuit");
+        this.needConnection.add("projetUParticipe");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //try {
+            //Passage des urls
+            request.setAttribute("URL_BASE_APPLI", URL_BASE_APPLI);
+            request.setAttribute("URL_GET_HOME", URL_GET_HOME);
+            request.setAttribute("URL_POST_LOGIN", URL_POST_LOGIN);
+            request.setAttribute("URL_DELETE_LOGIN", URL_DELETE_LOGIN);
+            request.setAttribute("URL_GET_PROJET", URL_GET_PROJET);
+            request.setAttribute("URL_DELETE_PROJET",URL_DELETE_PROJET);
+            request.setAttribute("URL_UPDATE_QUIT_PROJET",URL_UPDATE_QUIT_PROJET);
+            request.setAttribute("URL_UPDATE_PARTICIPE_PROJET",URL_UPDATE_PARTICIPE_PROJET);
+            request.setAttribute("URL_GET_COMPETENCE", URL_GET_COMPETENCE);
+            request.setAttribute("URL_POST_COMPETENCE", URL_POST_COMPETENCE);
+            request.setAttribute("URL_POST_COMPETENCEMEMBRE", URL_POST_COMPETENCEMEMBRE);
+            request.setAttribute("URL_DELETE_COMPETENCEMEMBRE", URL_DELETE_COMPETENCEMEMBRE);
+            request.setAttribute("URL_GET_ERROR", URL_GET_ERROR);
+
             //Construction de l'action
             this.action = request.getPathInfo();
             if (this.action == null) {
@@ -86,15 +107,11 @@ public class ControllerMain extends HttpServlet {
             switch (this.action) {
                 case "home":
                     request.setAttribute("login", userCo.getLogin());
-                    request.setAttribute("URL_DELETE_LOGIN", URL_DELETE_LOGIN);
-                    request.setAttribute("URL_GET_PROJET", URL_GET_PROJET);
-                    request.setAttribute("URL_GET_COMPETENCE", URL_GET_COMPETENCE);
                     request.getRequestDispatcher(PATH_HOME).forward(request, response);
                     break;
 
                 case "login":
                     if(userCo==null){
-                        request.setAttribute("URL_POST_LOGIN", URL_POST_LOGIN);
                         request.getRequestDispatcher(PATH_LOGIN).forward(request, response);
                     }else{
 
@@ -139,13 +156,44 @@ public class ControllerMain extends HttpServlet {
                     request.getRequestDispatcher(PATH_PROJET).forward(request, response);
                     break;
 
+                case "projetD":
+                    String intitulePD = request.getParameter("intituleP");
+                    if (intitulePD!=null) {
+                        if(userCo.getResponsable().contains(this.model.findProjetByIntitule(intitulePD))){
+                            this.model.deleteProjet(intitulePD);
+                            response.sendRedirect(URL_GET_PROJET);
+                        }else{
+                            request.setAttribute("msgError","Vous n'êtes pas responsable de ce projet");
+                            request.getRequestDispatcher("projet").forward(request, response);
+                        }
+                    }else{
+                        //throw new Exception();
+                    }
+                    break;
+
+                case "projetUQuit":
+                    String intituleUQ = request.getParameter("intituleP");
+                    if (intituleUQ!=null) {
+                        this.model.quitProjet(userCo,intituleUQ);
+                        response.sendRedirect(URL_GET_PROJET);
+                    }else{
+                        //throw new Exception();
+                    }
+                    break;
+
+                case "projetUParticipe":
+                    String intituleUP = request.getParameter("intituleP");
+                    if (intituleUP!=null) {
+                        this.model.participeProjet(userCo,intituleUP);
+                        response.sendRedirect(URL_GET_PROJET);
+                    }else{
+                        //throw new Exception();
+                    }
+                    break;
+
                 case "competence":
                     request.setAttribute("listCompetenceUser", userCo.getCompetenceDeclare());
                     request.setAttribute("listCompetence", this.model.getCompetenceList());
-                    request.setAttribute("URL_DELETE_LOGIN", URL_DELETE_LOGIN);
-                    request.setAttribute("URL_POST_COMPETENCE", URL_POST_COMPETENCE);
-                    request.setAttribute("URL_POST_COMPETENCEMEMBRE", URL_POST_COMPETENCEMEMBRE);
-                    request.setAttribute("URL_DELETE_COMPETENCEMEMBRE", URL_DELETE_COMPETENCEMEMBRE);
                     request.getRequestDispatcher(PATH_COMPETENCE).forward(request, response);
                     break;
 
@@ -198,7 +246,6 @@ public class ControllerMain extends HttpServlet {
                     break;
 
                 case "error":
-                    request.setAttribute("URL_BASE_APPLI", URL_BASE_APPLI);
                     request.getRequestDispatcher(PATH_ERROR).forward(request, response);
                     break;
 

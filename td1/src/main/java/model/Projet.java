@@ -72,4 +72,12 @@ public class Projet {
     public void addCompetence (Competence comp){
         this.necessite.add(comp);
     }
+
+    public boolean deleteMembre(Membre membre){
+        return this.contributionDe.remove(membre);
+    }
+
+    public boolean addContribue(Membre membre){
+        return this.contributionDe.add(membre);
+    }
 }

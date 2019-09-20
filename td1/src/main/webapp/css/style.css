@@ -1,4 +1,4 @@
-#deco {
+#top_right {
     position:absolute;
     top:20px;
     right:20px;
@@ -25,4 +25,12 @@ body {
     width: 48%;
     height: 100%;
     float: right;
+}
+
+.green {
+    color: green;
+}
+
+.red {
+    color: red;
 }
