@@ -22,6 +22,7 @@ public class ControllerMain extends HttpServlet {
     public static final String URL_DELETE_LOGIN = URL_BASE_MODULE+"/loginD";
     public static final String URL_GET_PROJET = URL_BASE_MODULE+"/projet";
     public static final String URL_DELETE_PROJET = URL_BASE_MODULE+"/projetD";
+    public static final String URL_POST_PROJET = URL_BASE_MODULE+"/projetP";
     public static final String URL_UPDATE_QUIT_PROJET = URL_BASE_MODULE+"/projetUQuit";
     public static final String URL_UPDATE_PARTICIPE_PROJET = URL_BASE_MODULE+"/projetUParticipe";
     public static final String URL_GET_COMPETENCE = URL_BASE_MODULE+"/competence";
@@ -29,11 +30,14 @@ public class ControllerMain extends HttpServlet {
     public static final String URL_POST_COMPETENCEMEMBRE = URL_BASE_MODULE+"/competenceMembreP";
     public static final String URL_DELETE_COMPETENCEMEMBRE = URL_BASE_MODULE+"/competenceMembreD";
     public static final String URL_GET_ERROR = URL_BASE_MODULE+"/error";
+    public static final String URL_GET_REGISTER = URL_BASE_MODULE+"/register";
+    public static final String URL_POST_REGISTER = URL_BASE_MODULE+"/registerP";
     public static final String PATH_ERROR = "/WEB-INF/view/error.jsp";
     public static final String PATH_HOME = "/WEB-INF/view/home.jsp";
     public static final String PATH_LOGIN = "/WEB-INF/view/login.jsp";
     public static final String PATH_PROJET = "/WEB-INF/view/projet.jsp";
     public static final String PATH_COMPETENCE = "/WEB-INF/view/competence.jsp";
+    public static final String PATH_REGISTER = "/WEB-INF/view/register.jsp";
 
     private Model model;
     private String action;
@@ -54,6 +58,7 @@ public class ControllerMain extends HttpServlet {
         this.needConnection.add("projetD");
         this.needConnection.add("projetUQuit");
         this.needConnection.add("projetUParticipe");
+        this.needConnection.add("projetP");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -65,6 +70,7 @@ public class ControllerMain extends HttpServlet {
             request.setAttribute("URL_DELETE_LOGIN", URL_DELETE_LOGIN);
             request.setAttribute("URL_GET_PROJET", URL_GET_PROJET);
             request.setAttribute("URL_DELETE_PROJET",URL_DELETE_PROJET);
+            request.setAttribute("URL_POST_PROJET",URL_POST_PROJET);
             request.setAttribute("URL_UPDATE_QUIT_PROJET",URL_UPDATE_QUIT_PROJET);
             request.setAttribute("URL_UPDATE_PARTICIPE_PROJET",URL_UPDATE_PARTICIPE_PROJET);
             request.setAttribute("URL_GET_COMPETENCE", URL_GET_COMPETENCE);
@@ -72,6 +78,8 @@ public class ControllerMain extends HttpServlet {
             request.setAttribute("URL_POST_COMPETENCEMEMBRE", URL_POST_COMPETENCEMEMBRE);
             request.setAttribute("URL_DELETE_COMPETENCEMEMBRE", URL_DELETE_COMPETENCEMEMBRE);
             request.setAttribute("URL_GET_ERROR", URL_GET_ERROR);
+            request.setAttribute("URL_GET_REGISTER", URL_GET_REGISTER);
+            request.setAttribute("URL_POST_REGISTER", URL_POST_REGISTER);
 
             //Construction de l'action
             this.action = request.getPathInfo();
@@ -145,6 +153,26 @@ public class ControllerMain extends HttpServlet {
                     response.sendRedirect(URL_GET_LOGIN);
                     break;
 
+                case "register":
+                    request.getRequestDispatcher(PATH_REGISTER).forward(request, response);
+                    break;
+
+                case "registerP":
+                    String loginP = request.getParameter("login");
+                    String passwordP = request.getParameter("password");
+                    String surnomP = request.getParameter("surnom");
+                    if (loginP != null && passwordP!=null && surnomP != null){
+                        if(this.model.createMembre(loginP,passwordP,surnomP)){
+                            response.sendRedirect(URL_GET_LOGIN);
+                        }else{
+                            request.setAttribute("msgError","Login déja utilisé ou champs mal renseigné");
+                            request.getRequestDispatcher("register").forward(request, response);
+                        }
+                    }else{
+                        //throw new Exception();
+                    }
+                    break;
+
                 case "projet":
                     HashMap<String, ArrayList<Projet>> listProjetLogin = this.model.dispatchProject(userCo);
                     request.setAttribute("listDirigeP", listProjetLogin.get("responsable"));
@@ -186,6 +214,21 @@ public class ControllerMain extends HttpServlet {
                     if (intituleUP!=null) {
                         this.model.participeProjet(userCo,intituleUP);
                         response.sendRedirect(URL_GET_PROJET);
+                    }else{
+                        //throw new Exception();
+                    }
+                    break;
+
+                case "projetP":
+                    String intitulePC = request.getParameter("intitule");
+                    String descriPC = request.getParameter("description");
+                    if (intitulePC!=null) {
+                        if(this.model.createProjet(userCo,intitulePC,descriPC)){
+                            response.sendRedirect(URL_GET_PROJET);
+                        }else{
+                            request.setAttribute("msgError","Vous n'êtes pas responsable de ce projet");
+                            request.getRequestDispatcher("projet").forward(request, response);
+                        }
                     }else{
                         //throw new Exception();
                     }

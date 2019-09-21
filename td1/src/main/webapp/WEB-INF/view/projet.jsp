@@ -33,5 +33,13 @@
     </ul>
 </div>
 <div class="right">
+    <h2>Ajouter/modifier un projet</h2>
+    <form action=${URL_POST_PROJET} method="post">
+        Intitulé :<input name="intitule" id="intitule" class="form-control">
+        </br>
+        Description :<input name="description" id="description" class="form-control">
+        </br>
+        <input type="submit" value="Ajouter" class="btn btn-primary">
+    </form>
 </div>
 <%@ include file="viewHelper/footerMain.jsp" %>

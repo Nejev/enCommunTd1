@@ -9,7 +9,9 @@
     <title>EnCommun</title>
 </head>
 <body>
+<div id="top_right">
+    <a href=EnCommun/home>Connexion </a> <a href=EnCommun/register> S'enregistrer</a>
+</div>
 <h1>Bienvenue sur EnCommun</h1>
-<a href="EnCommun/home">Accéder à mon environnement</a>
 </body>
 </html>

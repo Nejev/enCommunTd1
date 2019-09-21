@@ -11,20 +11,20 @@ public class Model {
     public Model(){
         //init liste des membres
         this.membreList = new ArrayList<>();
-        this.membreList.add(new Membre("user1", "one", "user 1"));
-        this.membreList.add(new Membre("user2", "two", "user 2"));
-        this.membreList.add(new Membre("user3", "three", "user 3"));
+        this.createMembre("user1", "one", "user 1");
+        this.createMembre("user2", "two", "user 2");
+        this.createMembre("user3", "three", "user 3");
         //init liste projets
         this.projetList = new ArrayList<>();
-        this.projetList.add(new Projet("projet1", "Projet 1"));
-        this.projetList.add(new Projet("projet2", "Projet 2"));
-        this.projetList.add(new Projet("projet3", "Projet 3"));
-        this.projetList.add(new Projet("projet4", "Projet 4"));
-        this.projetList.add(new Projet("projet5", "Projet 5"));
-        this.projetList.add(new Projet("projet6", "Projet 6"));
-        this.projetList.add(new Projet("projet7", "Projet 7"));
-        this.projetList.add(new Projet("projet8", "Projet 8"));
-        this.projetList.add(new Projet("projet9", "Projet 9"));
+        this.createProjet(this.findMembreByLogin("user1"),"projet1", "Projet 1");
+        this.createProjet(this.findMembreByLogin("user3"),"projet2", "Projet 2");
+        this.createProjet(this.findMembreByLogin("user3"),"projet3", "Projet 3");
+        this.createProjet(this.findMembreByLogin("user3"),"projet4", "Projet 4");
+        this.createProjet(this.findMembreByLogin("user3"),"projet5", "Projet 5");
+        this.createProjet(this.findMembreByLogin("user3"),"projet6", "Projet 6");
+        this.createProjet(this.findMembreByLogin("user3"),"projet7", "Projet 7");
+        this.createProjet(this.findMembreByLogin("user3"),"projet8", "Projet 8");
+        this.createProjet(this.findMembreByLogin("user3"),"projet9", "Projet 9");
         //init liste competences
         this.competenceList = new ArrayList<>();
         this.addCompetence("comp1", "compétence 1");
@@ -33,16 +33,6 @@ public class Model {
         this.addCompetence("comp4", "compétence 4");
         this.addCompetence("comp5", "compétence 5");
         //relations
-        //projet dirigé par un membre
-        this.setMembreToDirigeProjet(this.findMembreByLogin("user1"),this.findProjetByIntitule("projet1"));
-        this.setMembreToDirigeProjet(this.findMembreByLogin("user2"),this.findProjetByIntitule("projet2"));
-        this.setMembreToDirigeProjet(this.findMembreByLogin("user3"),this.findProjetByIntitule("projet3"));
-        this.setMembreToDirigeProjet(this.findMembreByLogin("user3"),this.findProjetByIntitule("projet4"));
-        this.setMembreToDirigeProjet(this.findMembreByLogin("user3"),this.findProjetByIntitule("projet5"));
-        this.setMembreToDirigeProjet(this.findMembreByLogin("user3"),this.findProjetByIntitule("projet6"));
-        this.setMembreToDirigeProjet(this.findMembreByLogin("user3"),this.findProjetByIntitule("projet7"));
-        this.setMembreToDirigeProjet(this.findMembreByLogin("user3"),this.findProjetByIntitule("projet8"));
-        this.setMembreToDirigeProjet(this.findMembreByLogin("user3"),this.findProjetByIntitule("projet9"));
         //membre participe a un projet
         this.setMembreToParticipeProjet(this.findMembreByLogin("user1"),this.findProjetByIntitule("projet2"));
         this.setMembreToParticipeProjet(this.findMembreByLogin("user1"),this.findProjetByIntitule("projet3"));
@@ -127,6 +117,13 @@ public class Model {
         user.addParticipe(projet);
     }
 
+    public boolean createMembre(String login,String mdp, String surnom){
+        if(login !="" && mdp != "" && this.findMembreByLogin(login)==null){
+            return this.membreList.add(new Membre(login, mdp, surnom));
+        }
+        return false;
+    }
+
     public void setCompetenceToProjet(Competence comp, Projet projet) {
         projet.addCompetence(comp);
         comp.addProjet(projet);
@@ -161,6 +158,23 @@ public class Model {
             return membre.deleteCompetenceMembre(intitule) && competence.deleteCompetenceMembre(membre);
         }
         return false;
+    }
+
+    public boolean createProjet(Membre membre, String intitule, String description){
+        Projet projet = findProjetByIntitule(intitule);
+        if(projet==null){
+            projet = new Projet(intitule,description);
+            this.setMembreToDirigeProjet(membre,projet);
+            this.projetList.add(projet);
+        }else{
+            if(projet.getDirigePar().equals(membre)){
+                projet.setIntituleP(intitule);
+                projet.setDescriptionP(description);
+            }else{
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean deleteProjet(String intitule){
