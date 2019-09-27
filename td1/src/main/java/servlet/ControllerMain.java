@@ -62,7 +62,7 @@ public class ControllerMain extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //try {
+        try {
             //Passage des urls
             request.setAttribute("URL_BASE_APPLI", URL_BASE_APPLI);
             request.setAttribute("URL_GET_HOME", URL_GET_HOME);
@@ -140,7 +140,7 @@ public class ControllerMain extends HttpServlet {
                             request.getRequestDispatcher("login").forward(request, response);
                         }
                     } else {
-                        //throw new Exception();
+                        throw new Exception();
                     }
                     break;
 
@@ -169,7 +169,7 @@ public class ControllerMain extends HttpServlet {
                             request.getRequestDispatcher("register").forward(request, response);
                         }
                     }else{
-                        //throw new Exception();
+                        throw new Exception();
                     }
                     break;
 
@@ -195,7 +195,7 @@ public class ControllerMain extends HttpServlet {
                             request.getRequestDispatcher("projet").forward(request, response);
                         }
                     }else{
-                        //throw new Exception();
+                        throw new Exception();
                     }
                     break;
 
@@ -205,7 +205,7 @@ public class ControllerMain extends HttpServlet {
                         this.model.quitProjet(userCo,intituleUQ);
                         response.sendRedirect(URL_GET_PROJET);
                     }else{
-                        //throw new Exception();
+                        throw new Exception();
                     }
                     break;
 
@@ -215,7 +215,7 @@ public class ControllerMain extends HttpServlet {
                         this.model.participeProjet(userCo,intituleUP);
                         response.sendRedirect(URL_GET_PROJET);
                     }else{
-                        //throw new Exception();
+                        throw new Exception();
                     }
                     break;
 
@@ -230,7 +230,7 @@ public class ControllerMain extends HttpServlet {
                             request.getRequestDispatcher("projet").forward(request, response);
                         }
                     }else{
-                        //throw new Exception();
+                        throw new Exception();
                     }
                     break;
 
@@ -250,7 +250,7 @@ public class ControllerMain extends HttpServlet {
                         this.model.addCompetence(intitule,description);
                         response.sendRedirect(URL_GET_COMPETENCE);
                     } else {
-                        //throw new Exception();
+                        throw new Exception();
                     }
                     break;
 
@@ -273,7 +273,7 @@ public class ControllerMain extends HttpServlet {
                             this.model.setCompetenceToMembre(this.model.findCompetenceByIntitule(intituleCM), userCo, niveau, descriptionCM);
                             response.sendRedirect(URL_GET_COMPETENCE);
                         } else {
-                            //throw new Exception();
+                            throw new Exception();
                         }
                     }
                     break;
@@ -284,7 +284,7 @@ public class ControllerMain extends HttpServlet {
                         this.model.deleteCompetenceMembre(userCo,intituleCM_D);
                         response.sendRedirect(URL_GET_COMPETENCE);
                     }else{
-                        //throw new Exception();
+                        throw new Exception();
                     }
                     break;
 
@@ -294,12 +294,12 @@ public class ControllerMain extends HttpServlet {
 
                 default:
                     request.setAttribute("msgError", "Ressource inconnue");
-                    //throw new Exception();
+                    throw new Exception();
             }
-        /*} catch (Exception e) {
+        } catch (Exception e) {
             request.setAttribute("msgError", "Il semblerait que votre action a engendrée une erreur");
             request.getRequestDispatcher("error").forward(request, response);
-        }*/
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

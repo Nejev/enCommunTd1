@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>td1</module>
+        <module>td2</module>
     </modules>
 
 
