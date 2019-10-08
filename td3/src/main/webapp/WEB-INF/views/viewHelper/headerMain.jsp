@@ -4,8 +4,8 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <%--<link rel="stylesheet" href="../css/bootstrap.css">--%>
-    <link rel="stylesheet" href="../css/style.css">
+    <link href="<c:url value="/css/bootstrap.css" />" rel="stylesheet">
+    <link href="<c:url value="/css/style.css" />" rel="stylesheet">
     <title>EnCommun</title>
 </head>
 <body>

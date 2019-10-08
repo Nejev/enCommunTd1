@@ -1,0 +1,28 @@
+1.Quelle classe remplace le web.xml et comment ?
+-WebServletConfiguration
+
+2.Comment s’y prend-on pour mettre en session le login de l’utilisateur connecté ?
+-model.addAttribute("courant", userV.getLogin());
+
+3.Quelles sont les annotations indispensables à un entity ?
+-@Entity, @Id..., annotations de liaisons(one-to-many...), annotations
+
+4.Comment accéder à la base de données (consultation en client web) ?
+-http://localhost:8080/tp4_war/console/
+
+5.Où utilise-t-on l’Entity Manager, et comment écrire une requête ?
+-On l'utilise dans un service
+-on construit la requete avec la syntaxe et les méthodes de l'EM puis on l'éxécute.
+
+6.Dans quel fichier est fait le paramétrage de la datasource ?
+-ClientWebConfig.java
+
+7.Qu’est-ce qu’un dto et pourquoi y avoir recours ?
+-DTO=objet de transfert de données
+-Permet de transformer les différents champs en paramètre en objet et inversement
+
+8.A quoi sert le fichier insert-data.sql ?
+-Permet de modifier en SQL la BDD liée à l'appli
+
+9.Pourquoi parle-t-on de transaction manager dans ClientWebConfig ?
+-pour configurer les entities qu on veut persister
