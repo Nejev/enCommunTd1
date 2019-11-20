@@ -2,7 +2,7 @@
 -WebServletConfiguration
 
 2.Comment s’y prend-on pour mettre en session le login de l’utilisateur connecté ?
--model.addAttribute("courant", userV.getLogin());
+-modele.addAttribute("courant", userV.getLogin());
 
 3.Quelles sont les annotations indispensables à un entity ?
 -@Entity, @Id..., annotations de liaisons(one-to-many...), annotations

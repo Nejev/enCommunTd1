@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>ClientList</title>
+</head>
+<body>
+<h1>Liste des clients</h1>
+<div>
+    <form th:action="@{/clients/clientList}" method="POST">
+        <label for="idclient">Choisir un client:</label>
+        <select name="idclient" id="idclient">
+            <option th:each="client : ${clients}"
+                    th:value="${client.getId()}"
+                    th:utext="${client.getNom()}"/>
+        </select>
+        <input name="submit" type="submit" value="submit" />
+    </form>
+</div>
+</body>
+</html>

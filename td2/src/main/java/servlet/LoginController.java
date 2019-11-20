@@ -1,9 +1,9 @@
 package servlet;
 
-import model.ConfigUrlMsgService;
-import model.MapProtectService;
-import model.Membre;
-import model.ModelService;
+import modele.ConfigUrlMsgService;
+import modele.MapProtectService;
+import modele.Membre;
+import modele.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 

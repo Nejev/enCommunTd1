@@ -11,7 +11,7 @@
     <!-- DispatcherServlet Context: defines this servlet's request-processing
         infrastructure -->
 
-    <!-- Enables the Spring MVC @Controller programming model -->
+    <!-- Enables the Spring MVC @Controller programming modele -->
     <annotation-driven />
     <context:component-scan base-package="controllers" />
 

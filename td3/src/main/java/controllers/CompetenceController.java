@@ -1,10 +1,9 @@
 package controllers;
 
-import model.Projet;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import model.Membre;
+import modele.Membre;
 import services.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import javax.servlet.http.HttpServlet;

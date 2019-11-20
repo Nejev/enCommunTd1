@@ -1,9 +1,9 @@
 package services;
 
-import model.Competence;
-import model.CompetenceMembre;
-import model.Membre;
-import model.Projet;
+import modele.Competence;
+import modele.CompetenceMembre;
+import modele.Membre;
+import modele.Projet;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
